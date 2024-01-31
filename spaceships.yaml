@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: SpaceShips
+  description: descripcion
+  contact:
+    name: Javier
+    email: jrosadob@hotmail.com
+  version: 1.0.0
+servers:
+  - url: https://dev.spaceships.com/v1
+    description: Development environment  
+  - url: https://qa.spaceships.com/v1
+    description: Qa environment
+  - url: https://spaceships.com/v1
+    description: Production environment
+tags:
+  - name: SpaceShips1
+    description: Vehicle to travel through **SpaceShips1**
+    externalDocs:
+      description: Find more
+      url: http://info.spaceship.com
+  - name: SpaceShips2
+    description: Vehicle to travel through SpaceShips2
+paths:
+  /spaceships:
+    get:
+      tags:
+      - SpaceShips1
+      summary: Provide a list of all spaceships.
+      parameters:
+      - name: alias
+        in: query
+        description: Common **name** spaceship
+        required: false
+        schema:
+          type: string
+      responses:
+        200: 
+          description: Ok
+          # content: 
+          #   application/json:
+          #     # schema:
+          #     #   type: array
+          #     #   items:
+          #     #     $ref: '#/components/schemas/SpaceShip'
+        # 204:
+        #   description: No Content
+  #   post:
+  #     tags:
+  #     - SpaceShips1
+  #     summary: Register a new spaceship to make it available to manage
+  #   head:
+  #     tags:
+  #     - SpaceShips1
+  #     summary: Register a new spaceship to make it available to manage
+  # /spaceships/{spaceship-id}:
+  #   get:
+  #     tags:
+  #     - SpaceShips1
+  #     summary: Obtain detailed information about an specific spaceship.
+  #   put:
+  #     tags:
+  #     - SpaceShips1
+  #     summary: Replace whole spaceship's information, without changing the identifier.
+  #   patch:
+  #     tags:
+  #     - SpaceShips1
+  #     summary: Update partially one or more properties of the spaceships.
+# components:
+#   shemas:
