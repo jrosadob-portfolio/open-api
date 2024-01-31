@@ -119,12 +119,45 @@ El RFC que se considero para las descripciones siguientes es el [RFC 7231][RFC 7
 ### Group 1XX: 
 
 ### Group 2XX
-
++ `200 Ok`  
+Respuesta más común y usada. Significa que la petición ha sido atendida exitosamente. Debería tener siempre un body de respuesta, ya que si no lo tiene sería mejor usar un 204. 
++	`201 Created`  
+Se ha creado un nuevo recurso exitosamente. Este nuevo recurso es accesible en el API. La respuesta debe tener un header Location esto es obligatorio porque el header contiene la URI del recurso creado, así el consumidor sabe donde puede encontrar ese nuevo recurso. El body de respuesta puede contener o no el recurso creado.
++ `202 Accepted`  
+La respuesta ha sido aceptada para procesarla, pero aún no se termina. Esto puede ser porque es una operación en segundo plano o asíncrona de cierta forma. Puede o no tener un body de respuesta que indique un resumen o la forma de dar seguimiento a esa tarea asíncrona. También se debe usar un Header Content-Location con la URL de donde puedes ver el status de la petición. 
++ `204 No content`  
+La petición fue ejecutada exitosamente pero no tiene un body de respuesta porque no es necesario a comparación de del resto de códigos. Si se requiriera proveer más información se puede hacer uso de headers.
 ### Group 3XX
-
++ `301 Moved Permanently`  
+Te dice que el recurso se ha movido permanentemente a otra dirección. Podrías usar el header Location para indicar cuál es esa URI nueva del recurso. Puede ser útil si estamos migrando algún recurso a otro endpoint o algún otro recurso como un documento o reporte. 
++ `303 See Other`  
+El servidor redirige al cliente a otra URI. Aquí hay que usar el header Location para poder tener la URI del recurso a consultar. Este código comúnmente se usa para operaciones en bulk, operaciones masivas, operaciones asíncronas porque proveen una URI donde consultar el resultado.
++ `304 Not modified`  
+En este status el cliente solicita un recurso (GET o HEAD) que no ha sido modificado desde que se consultó la última vez. Entonces no es necesario regresar ese mismo recurso en el payload de respuesta. Para esos casos debes usar 304 y se puede proveer otra información por medio de headers. Un uso común de esto son por ejemplo el caché donde se usan headers como Cache-Control, Content-Location, Date, ETag y se podría responder con el recurso que no tiene cambio.
 ### Group 4XX
-
++ `400 Bad Request`
+Aquí el cliente no debe de hacer de nuevo la petición sin cambiarla ya que está mal formada. Este error puede ser visto como un error por default cuando el resto de errores no aplica. También es comúnmente usado para errores funcionales por ejemplo campos requeridos, fechas fuera de rango, monto máximo. Situaciones que el cliente puede corregir. 
++ `401 Unauthorized`  
+La aplicación o el usuario autenticado no tiene autorización para acceder al recurso. También puede ser que esté formando mal el token de seguridad. 
++ `403 Forbidden`  
+La aplicación o el usuario autenticado a pesar de que tiene autorización al recurso, no tiene suficientes privilegios para el recurso.
++ `404 Not found`  
+Significa que se ha logrado una conexión pero no se encontró el recurso solicitado.
++ `405 Method not allowed`  
+El recurso existe pero no el método http que se intenta aplicar no está permitido. 
++ `409 Conflict`  
+La petición no pudo completarse debido a un conflicto o no puedo generar el estatus del recurso. Aquí es necesario resolver el conflicto antes de intentar de nuevo la petición. Este código de error no puede ser usado para errores funcionales o de negocio como en el caso del 400. 
 ### Group 5XX
++ `500 Internal Server Error`  
+Es un error del servidor, este es el error por default, normalmente desconocido.
++ `501 Not implemented`  
+El servicio está definido pero no está implementado. Quiere decir que puede ser accesible pero no esta funcionando al 100%.
++ `502 Bad gateway`  
+Significa que hay un servidor que es inaccesible o no está correctamente configurado el gateway.
++ `503 Service unavailable`  
+El servidor no puede hacer que el servicio esté disponible.
++ `504 Gateway timeout`
+Existe un error por un tercero en el tiempo de atención a la petición.
 
 ## Tools
 
